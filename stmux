@@ -1,0 +1,25 @@
+#!/bin/bash
+
+path_name="$(basename "$PWD" | tr . -)"
+export session_name=${1-$path_name}
+
+tmux has-session -t "$session_name" > /dev/null 2>&1
+
+if [ $? != 0 ]
+then
+  if [ -f ./.tmux_session ]; then
+    bash ./.tmux_session
+  else
+    tmux new -d -s "$session_name" 
+  fi
+fi
+
+not_in_tmux() {
+  [ -z "$TMUX" ]
+}
+
+if not_in_tmux; then
+  tmux attach -t "$session_name"
+else
+  tmux switch-client -t "$session_name"
+fi
