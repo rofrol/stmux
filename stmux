@@ -3,7 +3,7 @@
 path_name="$(basename "$PWD" | tr . -)"
 export session_name=${1-$path_name}
 
-tmux has-session -t "$session_name" > /dev/null 2>&1
+tmux has-session -t "=$session_name" > /dev/null 2>&1
 
 if [ $? != 0 ]
 then
