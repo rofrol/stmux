@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#tmux new -s "$session_name"-d
+set -- $(stty size) # $1 = rows $2 = columns
+# Needed for detached sessions? correct sizes?
+# https://superuser.com/questions/354844/cannot-resize-tmux-pane-from-bash-script
+tmux -2 new-session -d -s "$session_name" -n development -x "$2" -y "$(($1 - 1))" # status line uses a row
+# commenting out because I run this script in target directory
+tmux send-keys -t "$session_name" 'nvm > /dev/null' C-m 'em frontend/src/Mapdid/App.elm' C-m
+tmux split-window  -t "$session_name" -l 20
+tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m
+tmux split-window -v -t "$session_name" -l 3
+tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m 'killTcpListen 8080; make run env=Development name=App' C-m
+tmux set-hook -g client-resized 'run-shell "bash ~/bin/tmux_toggle.sh"'
