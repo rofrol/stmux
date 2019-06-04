@@ -7,7 +7,7 @@ set -- $(stty size) # $1 = rows $2 = columns
 tmux -2 new-session -d -s "$session_name" -n development -x "$2" -y "$(($1 - 1))" # status line uses a row
 # commenting out because I run this script in target directory
 tmux send-keys -t "$session_name" 'nvm > /dev/null' C-m 'em frontend/src/Mapdid/App.elm' C-m
-tmux split-window  -t "$session_name" -l 20
+tmux split-window  -t "$session_name" -l 14
 tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m
 tmux split-window -v -t "$session_name" -l 3
 tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m 'killTcpListen 8080; make run env=Development name=App' C-m
