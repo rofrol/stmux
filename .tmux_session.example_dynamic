@@ -10,5 +10,5 @@ tmux send-keys -t "$session_name" 'nvm > /dev/null' C-m 'em frontend/src/Mapdid/
 tmux split-window  -t "$session_name" -l 16
 tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m
 tmux split-window -v -t "$session_name" -l 3
-tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m 'killTcpListen 8080; killall -9 node; make run env=Development name=App' C-m
+tmux send-keys -t "$session_name" 'nvm > /dev/null; cd frontend' C-m 'killTcpListen 8080; killall -9 node; rm -rf build; make run env=Development name=App port=1234' C-m
 tmux set-hook -g client-resized 'run-shell "bash ~/bin/tmux_toggle.sh"'
